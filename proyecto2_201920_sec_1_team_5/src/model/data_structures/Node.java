@@ -1,5 +1,8 @@
 package model.data_structures;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Node<K extends Comparable<K>,V>
 {
 	//Llave asociada al nodo
@@ -25,11 +28,11 @@ public class Node<K extends Comparable<K>,V>
 	{
 		return (der == null && izq == null);
 	}
-	
+
 	public int size()
 	{
 		int size = 0;
-		
+
 		if(esHoja())
 			return 1;
 		else
@@ -41,4 +44,6 @@ public class Node<K extends Comparable<K>,V>
 		}
 		return size + 1;
 	}
+
+
 }

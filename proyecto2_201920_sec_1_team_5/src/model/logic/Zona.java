@@ -1,6 +1,6 @@
 package model.logic;
 
-public class Zona implements Comparable<Zona>
+public class Zona implements Comparable<Zona> 
 {
 
 	//-----------------------------
@@ -11,17 +11,18 @@ public class Zona implements Comparable<Zona>
 	private double shape_leng;
 	private double shape_area;
 	private Coordenada[] coordenada;
+	private Coordenada coordenadaNorte;
 
 	//-----------------------------
 	// Constructor
 	//-----------------------------
-	public Zona(String movement_id, String scanombre, double shape_leng, double shape_area, Coordenada[] coordenadas)
+	public Zona(String movement_id, String scanombre, double shape_leng, double shape_area, Coordenada[] coordenada)
 	{
 		this.movement_id = movement_id;
 		this.scanombre = scanombre;
 		this.shape_leng = shape_leng;
 		this.shape_area = shape_area;
-		this.coordenada = coordenadas;
+		this.coordenada = coordenada;
 	}
 	
 
@@ -47,8 +48,34 @@ public class Zona implements Comparable<Zona>
 
 	@Override
 	public int compareTo(Zona o)
-	{
+	{	
+		if(this.latitudMasNorte() < o.latitudMasNorte())
+			return -1;
+		else if(this.latitudMasNorte() > o.latitudMasNorte())
+			return 1;
 		return 0;
+	}
+	
+	
+	public double latitudMasNorte()
+	{
+		double maxNorte = 0;
+		
+		for(int i = 0; i < coordenada.length;i++)
+		{
+			if(coordenada[i].latitud > maxNorte)
+			{
+				maxNorte = coordenada[i].latitud;
+				coordenadaNorte = coordenada[i];
+			}
+		}
+		
+		return maxNorte;
+	}
+	
+	public Coordenada getCoordenadaMasNorte()
+	{
+		return coordenadaNorte;
 	}
 
 

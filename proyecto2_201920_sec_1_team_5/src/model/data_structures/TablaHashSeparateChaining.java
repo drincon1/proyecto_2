@@ -19,7 +19,6 @@ public class TablaHashSeparateChaining<K, V extends Comparable<V>> implements IT
 		private Node next;
 
 		public Node(Object key, Object value, Node next) {
-			super();
 			this.key = key;
 			this.value = value;
 			this.next = next;
@@ -115,24 +114,6 @@ public class TablaHashSeparateChaining<K, V extends Comparable<V>> implements IT
 		N++;
 		arreglo.agregarPorPosicion(new Node(key, value,arreglo.darElemento(i)), i); 
 
-		if((double) N/M > 5.0)
-		{
-			ArregloDinamico<Node> copia = arreglo;
-			arreglo.rehash();
-			M = arreglo.darCapacidad();
-			N  = 0;
-			for(int indice = 0;indice < M; indice++)
-			{
-				Node x = copia.darElemento(indice);
-				while(x != null)
-				{
-					put((K)x.key, (V)x.value);
-					x = x.getNext();
-				}
-
-			}
-
-		}
 	}
 
 	@Override
@@ -198,6 +179,27 @@ public class TablaHashSeparateChaining<K, V extends Comparable<V>> implements IT
 	private int hash (K key)
 	{
 		return (key.hashCode() & 0x7fffffff) % M;
+	}
+	
+	public ListaDoblementeEncadenada<V> getValues()
+	{
+		ListaDoblementeEncadenada<V> valores = new ListaDoblementeEncadenada<V>();
+		
+		for(int i = 0; i < M; i++)
+		{
+			if(arreglo.darElemento(i) != null)
+			{
+				Node temp = arreglo.darElemento(i);
+				while(temp != null)
+				{
+					valores.agregar((V) temp.value);
+					temp = temp.getNext();
+				}
+			}
+		}
+		
+		return valores;
+		
 	}
 
 

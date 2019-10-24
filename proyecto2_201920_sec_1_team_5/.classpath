@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/opencsv-4.4.jar"/>
+	<classpathentry kind="lib" path="lib/decimal4j-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

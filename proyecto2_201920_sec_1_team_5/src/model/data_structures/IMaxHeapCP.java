@@ -1,11 +1,11 @@
 package model.data_structures;
 
 /**
- * Cola de Prioridad basada en la representación de una Cola
+ * Cola de Prioridad basada en la representación de un Heap
  * @author Daniel Rincon
  * @param <T> Tipo de elemento
  */
-public interface IMaxColaCP <T extends Comparable<T>>
+public interface IMaxHeapCP <T extends Comparable<T>>
 {
 	/**
 	 * Retorna número de elementos presentes en la cola de prioridad
@@ -38,4 +38,11 @@ public interface IMaxColaCP <T extends Comparable<T>>
 	 * @return
 	 */
 	boolean esVacia ();
+	
+	/**
+	 * Devuelve cuantos elementos puede tener el arreglo
+	 * @return
+	 */
+	int darElementosPosibles();
+	
 }

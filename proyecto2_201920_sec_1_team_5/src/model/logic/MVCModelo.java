@@ -4,13 +4,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.decimal4j.util.DoubleRounder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.opencsv.CSVReader;
 
+import model.data_structures.ArbolRojoNegro;
 import model.data_structures.ListaDoblementeEncadenada;
+import model.data_structures.MaxHeapCP;
+import model.data_structures.Nodo;
+import model.data_structures.TablaHashSeparateChaining;
 import model.logic.TravelTime.TipoTiempo;
 
 public class MVCModelo 
@@ -128,7 +133,7 @@ public class MVCModelo
 			long endTime = System.currentTimeMillis();
 			long duration = (endTime - startTime) / 1000;
 			System.out.println("Cargó la información del trimestre 2 [días] en  " + duration +" segundos");
-			
+
 
 			ruta =  "./data/bogota-cadastral-2018-2-All-MonthlyAggregate.csv";
 			reader = new CSVReader(new FileReader(ruta));
@@ -264,8 +269,106 @@ public class MVCModelo
 	}
 
 	//----------------------------------------------
-	// Métodos de funcionamiento
+	// Métodos parte A
 	//----------------------------------------------
+
+	//faltan parametros (si los hay)
+	public void letrasMasRepetidas()
+	{
+		
+	}
+	
+	//faltan parametros (si los hay)
+	public void buscarNodosA()
+	{
+		
+	}
+	
+	//faltan parametros (si los hay)
+	//se usa estos datos: viajesMonthly1
+	public void tiempoPromedioA()
+	{
+		
+	}
+
+	//----------------------------------------------
+	// Métodos parte B
+	//----------------------------------------------
+
+	/**
+	 * Buscar las N zonas más al norte del mapa. 
+	 * Una zona está más al norte que otra si la latitud de la zona A es mayor que la latitud de la zona B.
+	 * @param N La cantidad de zonas que se quieren saber. N > 0
+	 */
+	public MaxHeapCP<Zona> zonasMasNorte(int N)
+	{
+		Nodo<Zona> tempo = zonas.darPrimero();
+		MaxHeapCP<Zona> heapZona = new MaxHeapCP<Zona>(zonas.darTamano());
+		for(int i = 0; i < heapZona.darElementosPosibles() && tempo != null; i++)
+		{
+			heapZona.agregar(tempo.darElemento());
+			tempo = tempo.siguiente;
+		}
+		
+		MaxHeapCP<Zona> heapZonaRespuesta = new MaxHeapCP<Zona>(N);
+		for(int i = 0; i < N; i++)
+		{
+			heapZonaRespuesta.agregar(heapZona.sacarMax());
+		}
+		
+		return heapZonaRespuesta;
+	}
+	
+	/**
+	 * Dado una latitud y una longitud, se deben mostrar todos los nodos que tengan 
+	 * esas mismas latitud y longitud truncando a 2 cifras decimales.
+	 * @param latitud
+	 * @param longitud
+	 * @return
+	 */
+	public TablaHashSeparateChaining<String, NodoBogota> buscarNodosB(double latitud, double longitud)
+	{
+		TablaHashSeparateChaining<String, NodoBogota> nodos = new TablaHashSeparateChaining<String, NodoBogota>(mapaBogota.darTamano());
+		Nodo<NodoBogota> temporal = mapaBogota.darPrimero();
+		
+		while(temporal != null)
+		{
+			if(DoubleRounder.round(temporal.elemento.getLatitud(),2) == DoubleRounder.round(latitud,2)
+			&& DoubleRounder.round(temporal.elemento.getLongitud(),2) == DoubleRounder.round(longitud,2))
+				nodos.put(Integer.toString(temporal.elemento.getId()), temporal.elemento);
+			temporal = temporal.siguiente;
+		}
+		return nodos;
+	}
+	
+	/**
+	 * Dado un rango de desviaciones estándares [limite_bajo, limite_alto] 
+	 * retornar los viajes cuya desviación estándar mensual este en ese rango.
+	 * @param limite_abajo
+	 * @param limite_arriba
+	 * @return
+	 */
+	public ArbolRojoNegro<TravelTime, Double> desviacionEstandarB(double limite_abajo, double limite_arriba)
+	{
+		ArbolRojoNegro<TravelTime, Double> arbol = new ArbolRojoNegro<TravelTime, Double>();
+		Nodo<TravelTime> tempo = viajesMonthly1.darPrimero();
+		
+		while(tempo != null)
+		{
+			double desviacion = tempo.elemento.getStandard_deviation_travel_time();
+			if(desviacion > limite_abajo && desviacion < limite_arriba)
+				arbol.put(tempo.elemento, tempo.elemento.getStandard_deviation_travel_time());
+			tempo = tempo.siguiente;
+		}
+		return arbol;
+	}
+	
+	//----------------------------------------------
+	// Métodos parte C
+	//----------------------------------------------
+
+	
+	
 
 
 	//----------------------------------------------

@@ -27,6 +27,10 @@ public class NodoBogota implements Comparable<NodoBogota>
 	@Override
 	public int compareTo(NodoBogota o) 
 	{
+		if(this.latitud < o.latitud)
+			return -1;
+		else if(this.latitud > o.latitud)
+			return 1;
 		return 0;
 	}
 

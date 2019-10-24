@@ -1,5 +1,6 @@
 package model.data_structures;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegro<K,V>
@@ -11,6 +12,9 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
 	private Node<K,V> root;
+	public ArrayList<K> llaves;
+	public int size;
+
 
 
 	//-------------------------------------------------
@@ -20,6 +24,8 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 	public ArbolRojoNegro()
 	{
 		root = null;
+		llaves = new ArrayList<K>();
+		size = 0;
 
 	}
 
@@ -29,9 +35,7 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 	@Override
 	public int size() 
 	{
-		if(root != null)
-			return root.size();
-		return -1;
+		return size;
 	}
 
 	/**
@@ -116,7 +120,8 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 	{
 		root = put(root, key, val);
 		root.color = BLACK;
-
+		llaves.add(key);
+		size++;
 	}
 
 	private Node<K,V> put(Node<K,V> h, K key, V val)
@@ -163,6 +168,7 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 			return height;
 	}
 
+
 	@Override
 	public K min() 
 	{
@@ -205,8 +211,9 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 	@Override
 	public Iterator<K> keys() 
 	{
-		return null;
+		return llaves.iterator();
 	}
+
 
 	@Override
 	public Iterator<V> valuesInRange(K init, K end) 
@@ -230,6 +237,8 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 		if(x == null) return false;
 		return x.color == RED;
 	}
+	
+
 
 	//-------------------------------------------------
 	// Metodos de rotación
@@ -263,6 +272,9 @@ public class ArbolRojoNegro<K extends Comparable<K>,V> implements IArbolRojoNegr
 		h.izq.color = BLACK;
 		h.der.color = BLACK;
 	}
+
+
+
 
 
 
