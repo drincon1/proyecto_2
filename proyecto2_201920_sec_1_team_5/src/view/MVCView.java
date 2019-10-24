@@ -36,6 +36,7 @@ public class MVCView
 	{
 		return lector.nextDouble();
 	}
+	
 	public String scannerString()
 	{
 		return lector.next();
